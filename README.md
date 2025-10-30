@@ -3,8 +3,6 @@
 A fully automated **enterprise-style homelab** built with **Terraform**, **Ansible**, and **Docker Compose**.  
 This project simulates a modern company's internal, developer, and production infrastructure — ideal for DevSecOps experimentation, security training, or learning how real organizations are structured behind the scenes.
 
-Created and maintained by **Isaac Eglinsdoerfer**.
-
 ---
 
 ## 🧩 Overview
@@ -175,6 +173,4 @@ Licensed under the **MIT License**.
 Use, modify, and expand freely.
 
 ---
-
-**Author:** Isaac Eglinsdoerfer  
 “An entire company, in a box — one repo to learn it all.”
