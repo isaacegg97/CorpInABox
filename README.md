@@ -169,7 +169,7 @@ ansible-playbook security/observability.yml
 
 ## 📜 License
 
-Licensed under the **MIT License**.  
+Licensed under **AGPL3/GNU AFFERO GENERAL PUBLIC LICENSE Version 3**.  
 Use, modify, and expand freely.
 
 ---

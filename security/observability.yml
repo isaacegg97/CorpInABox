@@ -1,0 +1,13 @@
+---
+- hosts: security_obs
+  become: true
+  tasks:
+    - file: { path: /opt/observability, state: directory, mode: "0755" }
+
+    - copy: { src: observability/docker-compose.yml, dest: /opt/observability/docker-compose.yml, mode: "0644" }
+    - copy: { src: observability/loki-config.yml,     dest: /opt/observability/loki-config.yml,     mode: "0644" }
+    - copy: { src: observability/promtail-config.yml, dest: /opt/observability/promtail-config.yml, mode: "0644" }
+
+    - community.docker.docker_compose_v2:
+        project_src: /opt/observability
+        state: present
