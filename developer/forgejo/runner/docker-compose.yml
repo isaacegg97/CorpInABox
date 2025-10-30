@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  act_runner:
+    image: gitea/act_runner:latest
+    container_name: forgejo-runner
+    environment:
+      GITEA_INSTANCE_URL: "${FORGEJO_URL:-http://forgejo:3000}"
+      GITEA_RUNNER_REGISTRATION_TOKEN: "${FORGEJO_RUNNER_TOKEN:-changeme}"
+      GITEA_RUNNER_NAME: "${FORGEJO_RUNNER_NAME:-runner-01}"
+      GITEA_RUNNER_LABELS: "docker:host"
+      CONFIG_FILE: /data/config.yaml
+    volumes:
+      - runner_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "grep -q runner /data/config.yaml || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  runner_data:

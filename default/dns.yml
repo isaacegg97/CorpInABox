@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    hostname: pihole
+    environment:
+      TZ: "${TZ:-UTC}"
+      WEBPASSWORD: "${PIHOLE_WEBPASSWORD:-changeme}"
+      FTLCONF_LOCAL_IPV4: "${PIHOLE_IP:-0.0.0.0}"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "8081:80/tcp"         # Pi-hole admin UI
+    volumes:
+      - pihole_etc:/etc/pihole
+      - dnsmasq_d:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "dig +short @127.0.0.1 pi-hole.net || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pihole_etc:
+  dnsmasq_d:

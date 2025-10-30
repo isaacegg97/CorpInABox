@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+  forgejo:
+    external: false
+
+services:
+  server:
+    image: codeberg.org/forgejo/forgejo:1.20
+    container_name: forgejo
+    environment:
+      - USER_UID: "{{ user_uid }}"
+      - USER_GID: "{{ user_gid }}"
+      - FORGEJO__database__DB_TYPE: mysql
+      - FORGEJO__database__HOST: db:3306
+      - FORGEJO__database__NAME: forgejo
+      - FORGEJO__database__USER: "{{ forgejo_db_user }}"
+      - FORGEJO__database__PASSWD: "{{ forgejo_db_passwd }}"
+    restart: unless-stopped
+    networks:
+      - forgejo
+    volumes:
+      - ./forgejo:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "8080:3000"
+      - "1337:22"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD: "{{ mysql_root_passwd }}"
+      - MYSQL_USER: "{{ mysql_user }}"
+      - MYSQL_PASSWORD: "{{ mysql_passwd }}"
+      - MYSQL_DATABASE: "{{ mysql_database }}"
+    networks:
+      - forgejo
+    volumes:
+      - ./mysql:/var/lib/mysql

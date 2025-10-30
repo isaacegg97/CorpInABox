@@ -1,0 +1,19 @@
+---
+LDAP_ADMIN_USERNAME: "{{ ldap_admin_username | default('admin') }}"
+LDAP_ADMIN_PASSWORD: "{{ ldap_admin_password | default('admin_password') }}"
+LDAP_USERS: "{{ ldap_users | default([]) }}"
+LDAP_PASSWORDS: "{{ ldap_passwords | default([]) }}"
+USER_UID: "{{ user_uid | default(1000) }}"
+USER_GID: "{{ user_gid | default(1000) }}"
+FORGEJO__database__DB_TYPE: mysql
+FORGEJO__database__HOST: db:3306
+FORGEJO__database__NAME: forgejo
+FORGEJO__database__USER: "{{ forgejo_db_user | default('forgejo_user') }}"
+FORGEJO__database__PASSWD: "{{ forgejo_db_passwd | default('forgejo_password') }}"
+MYSQL_ROOT_PASSWORD: "{{ mysql_root_passwd | default('root_password') }}"
+MYSQL_USER: "{{ mysql_user | default('mysql_user') }}"
+MYSQL_PASSWORD: "{{ mysql_passwd | default('mysql_password') }}"
+MYSQL_DATABASE: "{{ mysql_database | default('mysql_database') }}"
+REDMINE_DB_MYSQL: "{{ redmine_db_mysql | default('redmine_db_mysql') }}"
+REDMINE_DB_PASSWORD: "{{ redmine_db_password | default('redmine_db_password') }}"
+REDMINE_SECRET_KEY_BASE: "{{ redmine_secret_key_base | default('secret_key_base') }}"

@@ -1,0 +1,87 @@
+---
+- hosts: forgejo
+  tasks:
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - locales-all
+          - software-properties-common
+          - gnupg
+          - gpg
+          - python3
+          - python3-pip
+          - openssl
+          - git
+          - tmux
+        state: latest
+        update_cache: true
+      register: output
+      become: yes
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
+      become: yes
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
+      become: yes
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/debian bookworm stable
+        state: present
+      become: yes
+    
+    - name: Install docker and docker compose
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - docker-compose
+          - docker-compose-plugin
+          - docker-buildx-plugin
+          - containerd.io
+          - python3-docker
+        state: latest
+        update_cache: true
+      register: output
+      become: yes
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
+      become: yes
+
+    - name: Copy forgejo data directory with owner and permissions
+      ansible.builtin.copy:
+        src: ./forgejo
+        dest: /opt
+        owner: admin
+        group: admin
+        directory_mode: '0644'
+      become: yes
+
+    - name: generate forgejp docker compose
+      ansible.builtin.template:
+        src: ./forgejo/docker-compose.yml
+        dest: /opt/docker-compose.yml
+        owner: admin
+        group: admin
+        directory_mode: '0644'
+      become: yes
+
+    - name: Create and start forgejo containers
+      community.docker.docker_compose:
+        project_src: /opt/forgejo
+      become: yes
+      register: output
+
+    - name: Show results
+      ansible.builtin.debug:
+        var: output

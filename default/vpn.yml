@@ -1,0 +1,14 @@
+---
+- hosts: internal_vpn
+  become: true
+  tasks:
+    - file: { path: /opt/wireguard, state: directory, mode: "0755" }
+
+    - copy:
+        src: vpn/wireguard/docker-compose.yml
+        dest: /opt/wireguard/docker-compose.yml
+        mode: "0644"
+
+    - community.docker.docker_compose_v2:
+        project_src: /opt/wireguard
+        state: present

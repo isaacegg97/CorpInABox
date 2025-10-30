@@ -1,0 +1,44 @@
+RobCo
+Creates robots
+
+Internal Tools
+- LDAP
+  - Port389
+  - UI (https://github.com/dnknth/ldap-ui)
+- DNS (pihole)
+- SMTP/IMAP (modaboa)
+- SSH (bastion jump box)
+- VPN (wiregaurd)
+- File Server (nextcloud)
+- Chat Server (matter most)
+
+Dev Tools
+  - CI/CD (forgejo actions)
+  - Git (forgejo)
+  - Ticketing (redmine)
+  - Testing Enviorment
+
+Prod
+- Buissness Homepage
+- CRM
+- Billing
+- User Database
+- Ecommerce
+- Analytics
+- Webhooks (vendor simulation)
+- SEO
+- Marketing & Backlinks
+- Test wordpress instance exported to static content
+
+Security
+- Dashboard (grafana)
+- Log Agg (ELK stack)
+  - Elastisearch
+  - Kibana
+  - Logstash
+- IDS (Suricata)
+- File Analysis (Strelka)
+- XDR (Wazzuh)
+- Honeypot(s)
+  - HellPot
+  - Wazzuh

@@ -1,0 +1,17 @@
+---
+- hosts: developer_ci
+  become: true
+  vars_files:
+    - ../vars.yml
+  tasks:
+    - file: { path: /opt/forgejo-runner, state: directory, mode: "0755" }
+
+    - copy:
+        src: forgejo/runner/docker-compose.yml
+        dest: /opt/forgejo-runner/docker-compose.yml
+        mode: "0644"
+
+    - community.docker.docker_compose_v2:
+        project_src: /opt/forgejo-runner
+        state: present
+`

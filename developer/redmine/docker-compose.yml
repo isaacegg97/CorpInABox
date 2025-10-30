@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  redmine:
+    image: redmine
+    restart: unless-stopped
+    ports:
+      - 8080:3000
+    environment:
+      REDMINE_DB_MYSQL: "{{ redmine_db_mysql }}"
+      REDMINE_DB_PASSWORD: "{{ redmine_db_password }}"
+      REDMINE_SECRET_KEY_BASE: "{{ redmine_secret_key_base }}"
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
+      MYSQL_DATABASE: "{{ mysql_database }}"

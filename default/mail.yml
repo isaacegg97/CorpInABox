@@ -1,0 +1,25 @@
+---
+- hosts: internal_mail
+  become: true
+  vars_files:
+    - ../vars.yml
+  tasks:
+    - name: Ensure mail dir
+      file: { path: /opt/mail, state: directory, mode: "0755" }
+
+    - name: Copy compose
+      copy:
+        src: mail/modoboa/docker-compose.yml
+        dest: /opt/mail/docker-compose.yml
+        mode: "0644"
+
+    - name: Copy mail env
+      copy:
+        src: mail/modoboa/mail.env
+        dest: /opt/mail/mail.env
+        mode: "0644"
+
+    - name: Bring up mail stack
+      community.docker.docker_compose_v2:
+        project_src: /opt/mail
+        state: present
