@@ -1,19 +1,22 @@
-version: '2'
-
+version: "3"
 services:
-  openldap:
-    image: docker.io/cleanstart/openldap:latest
-    ports:
-      - '389:1389'
-      - '636:1636'
-    environment:
-      - LDAP_ADMIN_USERNAME: "{{ ldap_admin_username }}"
-      - LDAP_ADMIN_PASSWORD: "{{ ldap_admin_password }}"
-      - LDAP_USERS: "{{ ldap_users }}"
-      - LDAP_PASSWORDS: "{{ ldap_passwords }}"
-    volumes:
-      - 'openldap_data:/bitnami/openldap'
-
+    openldap:
+        container_name: openldap-prod
+        read_only: true
+        security_opt:
+            - no-new-privileges
+        user: 1000:1000
+        ports:
+            - 389:389
+            - 636:636
+        volumes:
+            - ldap-data:/var/lib/ldap
+            - ldap-config:/etc/ldap/slapd.d
+        image: docker.io/cleanstart/openldap:latest
 volumes:
-  openldap_data:
-    driver: local
+    ldap-data:
+        external:
+            name: ldap-data
+    ldap-config:
+        external:
+            name: ldap-config
