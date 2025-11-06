@@ -1,68 +1,17 @@
-version: "3.9"
-
+version: "3"
 services:
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: modoboa
-      POSTGRES_USER: modoboa
-      POSTGRES_PASSWORD: ${MODOBOA_DB_PASSWORD:-modoboa}
-    volumes:
-      - modoboa_db:/var/lib/postgresql/data
-    restart: unless-stopped
-
-  redis:
-    image: redis:7
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - modoboa_redis:/data
-    restart: unless-stopped
-
-  modoboa:
-    image: modoboa/modoboa:latest   # minimal; adjust to your preferred tag
-    depends_on: [db, redis]
-    environment:
-      DB_HOST: db
-      DB_NAME: modoboa
-      DB_USER: modoboa
-      DB_PASSWORD: ${MODOBOA_DB_PASSWORD:-modoboa}
-      REDIS_URL: redis://redis:6379/0
-      DOMAIN: ${MAIL_DOMAIN:-example.com}
-      ALLOWED_HOSTS: "*"
-      SECRET_KEY: ${MODOBOA_SECRET_KEY:-please-change-me}
-      TZ: ${TZ:-UTC}
-    volumes:
-      - modoboa_media:/srv/modoboa/instance/media
-      - modoboa_static:/srv/modoboa/instance/static
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost/health || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 10
-    ports:
-      - "8082:80"    # Modoboa admin UI
-
-  postfix:
-    image: tvial/docker-mailserver:latest
-    hostname: mail
-    domainname: ${MAIL_DOMAIN:-example.com}
-    env_file:
-      - ./mail.env
-    cap_add: [ "NET_ADMIN" ]
-    volumes:
-      - mail_state:/var/mail
-      - mail_config:/tmp/docker-mailserver
-    ports:
-      - "25:25"
-      - "587:587"
-      - "993:993"
-    restart: unless-stopped
-
-volumes:
-  modoboa_db:
-  modoboa_media:
-  modoboa_static:
-  modoboa_redis:
-  mail_state:
-  mail_config:
+    snappymail-docker:
+        stdin_open: true
+        tty: true
+        ports:
+            - 80:80
+            - 443:443
+        restart: unless-stopped
+        volumes:
+            - $(pwd)/volumes/var-www-snappymail-data:/var/www/snappymail/data
+            - $(pwd)/volumes/etc-apache2-sites-available:/etc/apache2/sites-available
+            - $(pwd)/volumes/var-log-apache2:/var/log/apache2/
+            - $(pwd)/volumes/usr-local-etc-php-conf.d/increase-upload-size.ini:/usr/local/etc/php/conf.d/increase-upload-size.ini
+            - /etc/letsencrypt/:/etc/letsencrypt/:ro
+        container_name: snappymail
+        image: docker.io/xgbstar1/snappymail-docker:main

@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   loki:
-    image: grafana/loki:2.9.8
+    image: docker.io/grafana/loki:2.9.8
     command: ["-config.file=/etc/loki/config.yml"]
     volumes:
       - loki_data:/loki
@@ -12,7 +12,7 @@ services:
     restart: unless-stopped
 
   promtail:
-    image: grafana/promtail:2.9.8
+    image: docker.io/grafana/promtail:3.2.1
     command: ["-config.file=/etc/promtail/config.yml"]
     volumes:
       - /var/log:/var/log:ro
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   grafana:
-    image: grafana/grafana:11.2.0
+    image: docker.io/grafana/grafana:11.2.0
     environment:
       GF_SECURITY_ADMIN_USER: "${GRAFANA_ADMIN_USER:-admin}"
       GF_SECURITY_ADMIN_PASSWORD: "${GRAFANA_ADMIN_PASS:-admin}"

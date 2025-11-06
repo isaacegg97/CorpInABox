@@ -2,7 +2,7 @@ version: '3'
 
 services:
   redmine:
-    image: redmine
+    image: docker.io/library/redmine:latest
     restart: unless-stopped
     ports:
       - 8080:3000
@@ -12,7 +12,7 @@ services:
       REDMINE_SECRET_KEY_BASE: "{{ redmine_secret_key_base }}"
 
   db:
-    image: mysql:8.0
+    image: docker.io/library/mysql:8.0
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"

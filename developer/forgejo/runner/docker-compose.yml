@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   act_runner:
-    image: gitea/act_runner:latest
+    image: docker.io/gitea/act_runner:latest
     container_name: forgejo-runner
     environment:
       GITEA_INSTANCE_URL: "${FORGEJO_URL:-http://forgejo:3000}"

@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   pihole:
-    image: pihole/pihole:latest
+    image: ghcr.io/pi-hole/pihole:latest
     container_name: pihole
     hostname: pihole
     environment:

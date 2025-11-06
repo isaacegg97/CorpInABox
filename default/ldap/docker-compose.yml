@@ -2,10 +2,10 @@ version: '2'
 
 services:
   openldap:
-    image: docker.io/bitnami/openldap:2.6
+    image: docker.io/cleanstart/openldap:latest
     ports:
-      - '1389:1389'
-      - '1636:1636'
+      - '389:1389'
+      - '636:1636'
     environment:
       - LDAP_ADMIN_USERNAME: "{{ ldap_admin_username }}"
       - LDAP_ADMIN_PASSWORD: "{{ ldap_admin_password }}"

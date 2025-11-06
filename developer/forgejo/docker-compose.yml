@@ -30,7 +30,7 @@ services:
       - db
 
   db:
-    image: mysql:8
+    image: docker.io/library/mysql:8
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD: "{{ mysql_root_passwd }}"
