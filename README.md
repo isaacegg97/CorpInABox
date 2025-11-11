@@ -132,17 +132,23 @@ ansible-playbook security/observability.yml
 
 ## 🧠 Post-Deployment Access
 
-| Service | URL / Port | Default Credentials / Notes |
-|----------|-------------|-----------------------------|
-| **Pi-hole** | `http://dns01:8081/admin` | password = `PIHOLE_WEBPASSWORD` |
-| **Mail Admin (Modoboa)** | `http://mail01:8082/` | admin set at first login |
-| **WireGuard** | UDP 51820 | configs in `/opt/wireguard/config` |
-| **Forgejo** | `http://forgejo:3000` | create admin on first run |
-| **Redmine** | `http://redmine:3000` | user: `admin` / pass: `admin` |
-| **Nextcloud** | `http://nextcloud:8080` | web setup wizard |
-| **Mattermost** | `http://chat:8065` | admin created on first login |
-| **Grafana** | `http://obs01:3000` | `admin` / `admin` |
-
+| Path | Container Name | Image |
+|------|----------------|-------|
+| `./default/ldap/docker-compose.yml` | `openldap-prod` | `docker.io/cleanstart/openldap:latest` |
+| `./default/dns/pihole/docker-compose.yml` | `(default)` | `ghcr.io/pi-hole/pihole:latest` |
+| `./default/mail/snappymail/docker-compose.yml` | `snappymail` | `docker.io/xgbstar1/snappymail-docker:main` |
+| `./default/vpn/wireguard/docker-compose.yml` | `(default)` | `lscr.io/linuxserver/wireguard:latest` |
+| `./developer/forgejo/runner/docker-compose.yml` | `(default)` | `docker.io/gitea/act_runner:latest` |
+| `./developer/forgejo/docker-compose.yml` | `(default)` | `codeberg.org/forgejo/forgejo:1.20` |
+| `./developer/forgejo/docker-compose.yml` | `forgejo` | `docker.io/library/mysql:8` |
+| `./developer/redmine/docker-compose.yml` | `(default)` | `docker.io/library/redmine:latest` |
+| `./developer/redmine/docker-compose.yml` | `(default)` | `docker.io/library/mysql:8.0` |
+| `./services/nextcloud/docker-compose.yml` | `(default)` | `docker.io/library/mariadb:10.6` |
+| `./services/nextcloud/docker-compose.yml` | `(default)` | `docker.io/library/nextcloud:latest` |
+| `./services/nextcloud/docker-compose.yml` | `(default)` | `docker.io/library/nginx:latest` |
+| `./security/observability/docker-compose.yml` | `(default)` | `docker.io/grafana/loki:2.9.8` |
+| `./security/observability/docker-compose.yml` | `(default)` | `docker.io/grafana/promtail:3.2.1` |
+| `./security/observability/docker-compose.yml` | `(default)` | `docker.io/grafana/grafana:11.2.0` |
 ---
 
 
@@ -173,4 +179,4 @@ Licensed under **AGPL3/GNU AFFERO GENERAL PUBLIC LICENSE Version 3**.
 Use, modify, and expand freely.
 
 ---
-“An entire company, in a box — one repo to learn it all.”
+“An entire company in a box”
